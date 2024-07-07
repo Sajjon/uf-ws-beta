@@ -1,6 +1,6 @@
-[package]
-name = "alpha"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+resolver = "2"
+members = ["crates/one", "crates/two"]
 
-[dependencies]
+[workspace.dependencies]
+uniffi = "0.28.0"
