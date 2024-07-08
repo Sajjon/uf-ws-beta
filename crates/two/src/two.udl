@@ -1,1 +1,4 @@
+[ExternalExport="one"]
+typedef extern One;
+
 namespace two {};
