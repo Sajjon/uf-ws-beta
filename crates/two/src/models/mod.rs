@@ -17,20 +17,20 @@ pub fn new_two(value: bool) -> Two {
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, uniffi::Record)]
-pub struct AlphaRecord {
+pub struct BetaRecord {
     one: One,
     two: Two,
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, uniffi::Object)]
 #[uniffi::export(Eq, Debug)]
-pub struct AlphaObject {
+pub struct BetaObject {
     one: One,
     two: Two,
 }
 
 #[uniffi::export]
-impl AlphaObject {
+impl BetaObject {
     #[uniffi::constructor]
     pub fn new_default() -> Self {
         Self::default()
@@ -42,16 +42,16 @@ impl AlphaObject {
     }
 }
 
-impl From<AlphaObject> for AlphaRecord {
-    fn from(value: AlphaObject) -> Self {
+impl From<BetaObject> for BetaRecord {
+    fn from(value: BetaObject) -> Self {
         Self {
             one: value.one,
             two: value.two,
         }
     }
 }
-impl From<AlphaRecord> for AlphaObject {
-    fn from(value: AlphaRecord) -> Self {
+impl From<BetaRecord> for BetaObject {
+    fn from(value: BetaRecord) -> Self {
         Self {
             one: value.one,
             two: value.two,
@@ -60,43 +60,43 @@ impl From<AlphaRecord> for AlphaObject {
 }
 
 #[uniffi::export]
-pub fn new_record(one: One, two: Two) -> AlphaRecord {
-    AlphaRecord { one, two }
+pub fn new_record(one: One, two: Two) -> BetaRecord {
+    BetaRecord { one, two }
 }
 
 #[uniffi::export]
-pub fn new_record_default() -> AlphaRecord {
-    AlphaRecord::default()
+pub fn new_record_default() -> BetaRecord {
+    BetaRecord::default()
 }
 
 #[uniffi::export]
-pub fn record_ref_record(value: &AlphaRecord) -> AlphaRecord {
+pub fn record_ref_record(value: &BetaRecord) -> BetaRecord {
     value.clone()
 }
 
 #[uniffi::export]
-pub fn record_record(value: AlphaRecord) -> AlphaRecord {
+pub fn record_record(value: BetaRecord) -> BetaRecord {
     value
 }
 
 #[uniffi::export]
-pub fn object_ref_object(value: &AlphaObject) -> AlphaObject {
+pub fn object_ref_object(value: &BetaObject) -> BetaObject {
     value.clone()
 }
 
 #[uniffi::export]
-pub fn object_object(value: Arc<AlphaObject>) -> Arc<AlphaObject> {
+pub fn object_object(value: Arc<BetaObject>) -> Arc<BetaObject> {
     value
 }
 
 #[uniffi::export]
-pub fn record_object(value: AlphaRecord) -> AlphaObject {
+pub fn record_object(value: BetaRecord) -> BetaObject {
     value.into()
 }
 
 #[uniffi::export]
-pub fn object_record(value: Arc<AlphaObject>) -> AlphaRecord {
-    let raw = Arc::<AlphaObject>::into_raw(value);
+pub fn object_record(value: Arc<BetaObject>) -> BetaRecord {
+    let raw = Arc::<BetaObject>::into_raw(value);
     let inner = unsafe { raw.as_ref() }.unwrap().clone();
-    AlphaRecord::from(inner)
+    BetaRecord::from(inner)
 }

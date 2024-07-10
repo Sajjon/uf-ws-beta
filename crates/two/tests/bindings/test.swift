@@ -3,9 +3,9 @@ import two
 public func test() throws {
   assert(newRecordDefault() == newRecordDefault())
   assert(newRecordDefault() == newRecord(one: newOneDefault(), two: newTwoDefault()))
-  assert(AlphaObject.newDefault() == AlphaObject.newDefault())
-  assert(objectRecord(value: AlphaObject.newDefault()) == newRecordDefault())
-  assert(recordObject(value: newRecordDefault()) == AlphaObject.newDefault())
+  assert(BetaObject.newDefault() == BetaObject.newDefault())
+  assert(objectRecord(value: BetaObject.newDefault()) == newRecordDefault())
+  assert(recordObject(value: newRecordDefault()) == BetaObject.newDefault())
 
   do {
     let r = newRecord(one: newOne(value: true), two: newTwo(value: true))
@@ -14,7 +14,7 @@ public func test() throws {
   }
 
   do {
-    let o = AlphaObject(one: newOne(value: true), two: newTwo(value: true))
+    let o = BetaObject(one: newOne(value: true), two: newTwo(value: true))
     assert(o == objectObject(value: o))
     assert(o == objectRefObject(value: o))
   }
