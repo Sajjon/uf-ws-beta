@@ -70,33 +70,33 @@ pub fn new_record_default() -> AlphaRecord {
 }
 
 #[uniffi::export]
-pub fn record_ref_record(record: &AlphaRecord) -> AlphaRecord {
-    record.clone()
+pub fn record_ref_record(value: &AlphaRecord) -> AlphaRecord {
+    value.clone()
 }
 
 #[uniffi::export]
-pub fn record_record(record: AlphaRecord) -> AlphaRecord {
-    record
+pub fn record_record(value: AlphaRecord) -> AlphaRecord {
+    value
 }
 
 #[uniffi::export]
-pub fn object_ref_object(object: &AlphaObject) -> AlphaObject {
-    object.clone()
+pub fn object_ref_object(value: &AlphaObject) -> AlphaObject {
+    value.clone()
 }
 
 #[uniffi::export]
-pub fn object_object(object: Arc<AlphaObject>) -> Arc<AlphaObject> {
-    object
+pub fn object_object(value: Arc<AlphaObject>) -> Arc<AlphaObject> {
+    value
 }
 
 #[uniffi::export]
-pub fn record_object(record: AlphaRecord) -> AlphaObject {
-    record.into()
+pub fn record_object(value: AlphaRecord) -> AlphaObject {
+    value.into()
 }
 
 #[uniffi::export]
-pub fn object_record(object: Arc<AlphaObject>) -> AlphaRecord {
-    let raw = Arc::<AlphaObject>::into_raw(object);
+pub fn object_record(value: Arc<AlphaObject>) -> AlphaRecord {
+    let raw = Arc::<AlphaObject>::into_raw(value);
     let inner = unsafe { raw.as_ref() }.unwrap().clone();
     AlphaRecord::from(inner)
 }
