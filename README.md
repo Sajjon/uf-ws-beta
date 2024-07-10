@@ -1,9 +1,8 @@
-> [!IMPORTANT]
-> Python binding tests does not work, I get error:
-> "attempted relative import with no known parent package"
-> However, both Kotlin and Swift bindings tests works.
+> [!WARNING]
+> This shows that UniFII does **NOT** work with workspace
+> when using `newtype` paradigm.
 
-# Works
+# **NOT** Works
 
 Simple demo of workspace setup with two UniFFI consuming crates:
 
@@ -16,42 +15,60 @@ one
 └── two
 ```
 
-Crate `two` contains the bindgen tests.
-
-## Tests
+If you try to build it will fail:
 
 ```sh
-cargo test
+cargo build
 ```
 
-# Setup
-
-## Swift
-
-### Xcode
-
-Install Xcode 15
-
-## Kotlin
-
-### JNA
-
-Install JNA:
+Results in:
 
 ```sh
-curl https://repo1.maven.org/maven2/net/java/dev/jna/jna/5.14.0/jna-5.14.0.jar --output jna-5.14.0.jar
+error[E0277]: the trait bound `One: uniffi::TypeId<UniFfiTag>` is not satisfied
+  --> crates/two/src/models/mod.rs:10:10
+   |
+10 |     one: One,
+   |          ^^^ the trait `uniffi::TypeId<UniFfiTag>` is not implemented for `One`
+   |
+   = help: the trait `uniffi::TypeId<one::UniFfiTag>` is implemented for `One`
+   = help: for that trait implementation, expected `one::UniFfiTag`, found `UniFfiTag`
+
+error[E0277]: the trait bound `One: Lower<UniFfiTag>` is not satisfied
+  --> crates/two/src/models/mod.rs:10:10
+   |
+10 |     one: One,
+   |          ^^^ the trait `Lower<UniFfiTag>` is not implemented for `One`
+   |
+   = help: the trait `Lower<one::UniFfiTag>` is implemented for `One`
+   = help: for that trait implementation, expected `one::UniFfiTag`, found `UniFfiTag`
+
+error[E0277]: the trait bound `One: Lift<UniFfiTag>` is not satisfied
+  --> crates/two/src/models/mod.rs:10:10
+   |
+10 |     one: One,
+   |          ^^^ the trait `Lift<UniFfiTag>` is not implemented for `One`
+   |
+   = help: the trait `Lift<one::UniFfiTag>` is implemented for `One`
+   = help: for that trait implementation, expected `one::UniFfiTag`, found `UniFfiTag`
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `two` (lib) due to 3 previous errors
 ```
 
-### Direnv
+> [IMPORTANT]
+> An important gotcha: It is only `BetaRecord`, referencing `One` which is broken,
+> however, `BetaObject` does compile! Which is also referencing `One`. So it seems
+> the `uniffi::Record` macro is broken, but not `uniffi::Object`?
 
-Install direnv to automatically load ENV variables when standing in project root.
+# Design
 
-```sh
-brew install direnv
+This crate is identical to _working_ demo [`alpha`](https://github.com/Sajjon/uf-ws-alpha), except that the type `One` in crate `one` is a `newtype` around `bool`, and made UniFFI capable with `uniffi::custom_newtype!` macro.
+
+Exactly like `alpha` demo, the crate `two` has a `udl` file which declares dependency on this external type, like so:
+
+```webudl
+[ExternalExport="one"]
+typedef extern One;
 ```
 
-Then, standing in project root, run:
-
-```sh
-direnv allow .
-```
+And this does not work. So the behavior differs between a Rust struct which is `uniffi::Record` and a Rust newtype which is `uniffi::custom_newtype!`.

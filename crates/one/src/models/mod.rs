@@ -1,7 +1,7 @@
-#[derive(Clone, Debug, Default, PartialEq, Eq, uniffi::Record)]
-pub struct One {
-    value: bool,
-}
+#[derive(Clone, Debug, Default, PartialEq, Eq)]
+pub struct One(bool);
+
+uniffi::custom_newtype!(One, bool);
 
 #[uniffi::export]
 pub fn new_one_default() -> One {
@@ -10,5 +10,5 @@ pub fn new_one_default() -> One {
 
 #[uniffi::export]
 pub fn new_one(value: bool) -> One {
-    One { value }
+    One(value)
 }
