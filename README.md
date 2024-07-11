@@ -1,5 +1,7 @@
-> [!WARNING]
-> This shows that UniFII does **NOT** work with workspace
+> ![WARNING]
+> Uses released UniFFI version `0.28.0`.
+
+> Shows that UniFII does **NOT** work with workspace
 > when using `newtype` paradigm.
 
 # **NOT** Works
