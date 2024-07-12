@@ -27,3 +27,24 @@ pub struct BetaObject {
     one: One,
     two: Two,
 }
+
+#[uniffi::export]
+impl BetaObject {
+    #[uniffi::constructor]
+    pub fn new_default() -> Self {
+        Self::default()
+    }
+}
+
+#[uniffi::export]
+pub fn new_beta_record_default() -> BetaRecord {
+    BetaRecord::default()
+}
+
+#[uniffi::export]
+pub fn beta_record_to_object(record: BetaRecord) -> BetaObject {
+    BetaObject {
+        one: record.one,
+        two: record.two,
+    }
+}

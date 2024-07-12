@@ -6,4 +6,4 @@ pub mod prelude {
 
 pub use prelude::*;
 
-uniffi::include_scaffolding!("one");
+uniffi::setup_scaffolding!("one");

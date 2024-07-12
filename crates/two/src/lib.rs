@@ -6,10 +6,7 @@ pub mod prelude {
 
 pub use prelude::*;
 
-uniffi::ffi_converter_forward!(
-    one::One,
-    one::UniFfiTag,
-    crate::UniFfiTag
-);
+use one::One;
+uniffi::ffi_converter_forward!(One, one::UniFfiTag, crate::UniFfiTag);
 
-uniffi::include_scaffolding!("two");
+uniffi::setup_scaffolding!("two");
