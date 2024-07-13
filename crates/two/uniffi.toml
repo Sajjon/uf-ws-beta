@@ -2,3 +2,8 @@ namespace = "two"
 
 [bindings.kotlin]
 package_name = "com.sajjon.two"
+
+[bindings.python.external_packages]
+# This fixture does not create a Python package, so we want all modules to be top-level modules.
+one = ""
+two = ""
